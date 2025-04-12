@@ -30,8 +30,15 @@ class RedBlackTree:
         node.set_right_child(RedBlackTree.nill)
         node.set_parent(RedBlackTree.nill)
 
-    def search(self, value):
-        pass
+    def search(self, node, value):
+        if value == node.value:
+            return True
+        elif value < node.value and node.left_child != None:
+            return self.search(node.left_child, value)
+        elif value > node.value and node.right_child != None:
+            return self.search(node.right_child, value)
+        else:
+            return False
 
     def fix_up(self, node:Node):
         pass
