@@ -22,8 +22,15 @@ class Tree:
     def __init__(self):
        self.root = None
     
-    def search(self, value):
-        pass
+    def search(self, node, value):
+        if value == node.value:
+            return True
+        elif value < node.value and node.left_child != None:
+            return self.search(node.left_child, value)
+        elif value > node.value and node.right_child != None:
+            return self.search(node.right_child, value)
+        else:
+            return False
 
     def insert(self, value):
         if self.search(value):
