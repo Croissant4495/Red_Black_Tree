@@ -40,8 +40,42 @@ class RedBlackTree:
         else:
             return False
 
-    def fix_up(self, node:Node):
+    def get_direction_from_parent(self, node:Node):
+        # left child  : -1
+        # right child :  1
+        if node.parent.left_child == node:
+            return -1
+        elif node.parent.right_child == node:
+            return 1
+        else:
+            return 0
+        
+    def get_uncle(self, node:Node):
+        direction = self.get_direction_from_parent(node.parent)
+        if direction == -1:
+            return node.parent.parent.right_child
+        elif direction == 1:
+                return node.parent.parent.left_child
+        else:
+            return RedBlackTree.nill
+
+    def determine_rotations(self, node:Node):
         pass
+
+    def fix_up(self, node:Node):
+        if node == self.root:
+            node.color = 0
+            return
+        if node.color and node.parent.color:
+            if self.get_uncle(node).color:
+                # Case 1
+                self.get_uncle(node).toggle_color()
+                node.parent.toggle_color()
+                node.parent.parent.toggle_color()
+                self.fix_up(node.parent.parent)
+            else:
+                self.determine_rotations(node)
+
 
     def insert(self, value):
         if self.search(value):
