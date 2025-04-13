@@ -24,6 +24,7 @@ class RedBlackTree:
     def __init__(self):
        self.root = RedBlackTree.nill
        self.nillify(self.root)
+       self.temp = 0
     
     def nillify(self, node):
         node.set_left_child(RedBlackTree.nill)
@@ -60,7 +61,24 @@ class RedBlackTree:
             return RedBlackTree.nill
 
     def determine_rotations(self, node:Node):
-        pass
+        node_dir = self.get_direction_from_parent(node)
+        parent_dir = self.get_direction_from_parent(node.parent)
+        if node_dir and parent_dir:
+            if node_dir == parent_dir:
+                return 3                      # Case 3
+            return 2                          # Case 2
+
+    def rotate_left(self, node:Node):
+        node.parent.right_child = node.left_child
+        node.left_child = node.parent
+
+        direction = self.get_direction_from_parent(node.parent)
+        if direction == -1:
+            node.parent.parent.left_child = node
+        elif direction == 1:
+            node.parent.parent.right_child = node
+        node.parent = node.parent.parent
+        node.left_child.parent = node
 
     def fix_up(self, node:Node):
         if node == self.root:
@@ -109,4 +127,11 @@ class RedBlackTree:
             self.traverse(node.left_child)
             print(node.value)
             self.traverse(node.right_child)
-        
+
+    def inorder_traversal(self, node):
+        if node is not None:
+            self.inorder_traversal(node.left)
+            self.temp += 1
+            print(f"Node {node.key} has index {self.temp}")
+            self.inorder_traversal(node.right)
+    
