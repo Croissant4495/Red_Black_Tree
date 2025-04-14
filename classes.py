@@ -133,9 +133,13 @@ class RedBlackTree:
                 elif case == 2:
                     if direction == -1:
                         self.rotate_right(node)
+                        node.toggle_color()
+                        node.parent.toggle_color()
                         self.rotate_left(node)
                     elif direction == 1:
                         self.rotate_left(node)
+                        node.toggle_color()
+                        node.parent.toggle_color()
                         self.rotate_right(node)
                     else:
                         print("error")
@@ -183,16 +187,17 @@ class RedBlackTree:
             self.preorder_traversal(node.right_child)
     
 tempTree = RedBlackTree()
-# tempTree.insert(5)
-# tempTree.insert(6)
-# tempTree.insert(1)
-# tempTree.insert(8)
-# tempTree.insert(2)
-# tempTree.insert(3)
-# tempTree.insert(9)
-# tempTree.insert(7)
-# tempTree.insert(11)
-# tempTree.insert(10)
+
+tempTree.insert(5)
+tempTree.insert(6)
+tempTree.insert(1)
+tempTree.insert(8)
+tempTree.insert(2)
+tempTree.insert(3)
+tempTree.insert(9)
+tempTree.insert(7)
+tempTree.insert(11)
+tempTree.insert(10)
 tempTree.preorder_traversal(tempTree.root)
 # print("_______________")
 # tempTree.rotate_left(tempTree.root.right_child)
