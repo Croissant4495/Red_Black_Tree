@@ -32,14 +32,14 @@ class RedBlackTree:
         node.set_parent(RedBlackTree.nill)
 
     def search(self, node, value):
-        if value == node.value:
-            return True
-        elif value < node.value and node.left_child != None:
-            return self.search(node.left_child, value)
-        elif value > node.value and node.right_child != None:
-            return self.search(node.right_child, value)
-        else:
-            return False
+        if node != RedBlackTree.nill:
+            if value == node.value:
+                return True
+            elif value < node.value and node.left_child != None:
+                return self.search(node.left_child, value)
+            elif value > node.value and node.right_child != None:
+                return self.search(node.right_child, value)
+        return False
 
     def get_direction_from_parent(self, node:Node):
         # left child  : -1
@@ -77,8 +77,24 @@ class RedBlackTree:
             node.parent.parent.left_child = node
         elif direction == 1:
             node.parent.parent.right_child = node
+        else:
+            self.root = node
         node.parent = node.parent.parent
         node.left_child.parent = node
+
+    def rotate_right(self, node:Node):
+        node.parent.left_child = node.right_child
+        node.right_child = node.parent
+
+        direction = self.get_direction_from_parent(node.parent)
+        if direction == -1:
+            node.parent.parent.left_child = node
+        elif direction == 1:
+            node.parent.parent.right_child = node
+        else:
+            self.root = node
+        node.parent = node.parent.parent
+        node.right_child.parent = node
 
     def fix_up(self, node:Node):
         if node == self.root:
@@ -96,7 +112,7 @@ class RedBlackTree:
 
 
     def insert(self, value):
-        if self.search(value):
+        if self.search(self.root, value):
             return
         new = Node(value)
         self.nillify(new)
@@ -128,10 +144,22 @@ class RedBlackTree:
             print(node.value)
             self.traverse(node.right_child)
 
-    def inorder_traversal(self, node):
-        if node is not None:
-            self.inorder_traversal(node.left)
+    def preorder_traversal(self, node:Node):
+        if node != RedBlackTree.nill:
+            print(f"Node {node.value} has index {self.temp}")
             self.temp += 1
-            print(f"Node {node.key} has index {self.temp}")
-            self.inorder_traversal(node.right)
+            self.preorder_traversal(node.left_child)
+            self.preorder_traversal(node.right_child)
     
+tempTree = RedBlackTree()
+tempTree.insert(5)
+tempTree.insert(6)
+tempTree.insert(1)
+tempTree.insert(8)
+tempTree.insert(2)
+tempTree.insert(3)
+tempTree.preorder_traversal(tempTree.root)
+print("_______________")
+tempTree.rotate_left(tempTree.root.right_child)
+tempTree.rotate_right(tempTree.root.left_child)
+tempTree.preorder_traversal(tempTree.root)
