@@ -20,7 +20,7 @@ class Node:
             self.color = 0
         else:
             self.color = 1
-        # self.color = not self.color
+        # self.color = not self.color   # not 1 is "None" not "0"
 
 class RedBlackTree:
     nill = Node(None)
@@ -110,13 +110,13 @@ class RedBlackTree:
             node.color = 0
             return
         if node.color and node.parent.color:
-            if self.get_uncle(node) != RedBlackTree.nill and self.get_uncle(node).color:
+            if self.get_uncle(node) != RedBlackTree.nill and self.get_uncle(node).color: # check if uncle exists before checking his color
                 # Case 1
                 self.get_uncle(node).toggle_color()
                 node.parent.toggle_color()
                 node.parent.parent.toggle_color()
                 self.fix_up(node.parent.parent)
-            else:
+            else:   # code below is ugly but works
                 print("not case 1 but case ")
                 print(self.determine_rotations(node))
                 case = self.determine_rotations(node)
