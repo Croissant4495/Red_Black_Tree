@@ -113,7 +113,7 @@ class RedBlackTree:
 
     def insert(self, value):
         if self.search(self.root, value):
-            return
+            return False
         new = Node(value)
         self.nillify(new)
 
@@ -137,6 +137,7 @@ class RedBlackTree:
             new.parent = parent
         
         self.fix_up(new)
+        return True
 
     def traverse(self, node:Node):
         if node != RedBlackTree.nill:
@@ -151,15 +152,15 @@ class RedBlackTree:
             self.preorder_traversal(node.left_child)
             self.preorder_traversal(node.right_child)
     
-tempTree = RedBlackTree()
-tempTree.insert(5)
-tempTree.insert(6)
-tempTree.insert(1)
-tempTree.insert(8)
-tempTree.insert(2)
-tempTree.insert(3)
-tempTree.preorder_traversal(tempTree.root)
-print("_______________")
-tempTree.rotate_left(tempTree.root.right_child)
-tempTree.rotate_right(tempTree.root.left_child)
-tempTree.preorder_traversal(tempTree.root)
+# tempTree = RedBlackTree()
+# tempTree.insert(5)
+# tempTree.insert(6)
+# tempTree.insert(1)
+# tempTree.insert(8)
+# tempTree.insert(2)
+# tempTree.insert(3)
+# tempTree.preorder_traversal(tempTree.root)
+# print("_______________")
+# tempTree.rotate_left(tempTree.root.right_child)
+# tempTree.rotate_right(tempTree.root.left_child)
+# tempTree.preorder_traversal(tempTree.root)
