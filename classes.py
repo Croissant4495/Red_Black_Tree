@@ -16,7 +16,11 @@ class Node:
         self.parent = parent
 
     def toggle_color(self):
-        self.color = not self.color
+        if self.color == 1:
+            self.color = 0
+        else:
+            self.color = 1
+        # self.color = not self.color
 
 class RedBlackTree:
     nill = Node(None)
@@ -59,6 +63,11 @@ class RedBlackTree:
                 return node.parent.parent.left_child
         else:
             return RedBlackTree.nill
+    
+    # def get_uncle(self, node:Node):
+    #     if node.parent == node.parent.parent.right_child:
+    #         return node.parent.parent.left_child
+    #     return node.parent.parent.right_child
 
     def determine_rotations(self, node:Node):
         node_dir = self.get_direction_from_parent(node)
@@ -71,7 +80,7 @@ class RedBlackTree:
     def rotate_left(self, node:Node):
         node.parent.right_child = node.left_child
         node.left_child = node.parent
-
+        print("doing left rotate")
         direction = self.get_direction_from_parent(node.parent)
         if direction == -1:
             node.parent.parent.left_child = node
@@ -85,7 +94,7 @@ class RedBlackTree:
     def rotate_right(self, node:Node):
         node.parent.left_child = node.right_child
         node.right_child = node.parent
-
+        print("doing right rotate")
         direction = self.get_direction_from_parent(node.parent)
         if direction == -1:
             node.parent.parent.left_child = node
@@ -101,14 +110,35 @@ class RedBlackTree:
             node.color = 0
             return
         if node.color and node.parent.color:
-            if self.get_uncle(node).color:
+            if self.get_uncle(node) != RedBlackTree.nill and self.get_uncle(node).color:
                 # Case 1
                 self.get_uncle(node).toggle_color()
                 node.parent.toggle_color()
                 node.parent.parent.toggle_color()
                 self.fix_up(node.parent.parent)
             else:
-                self.determine_rotations(node)
+                print("not case 1 but case ")
+                print(self.determine_rotations(node))
+                case = self.determine_rotations(node)
+                direction = self.get_direction_from_parent(node)
+                if case == 3:
+                    node.parent.toggle_color()
+                    node.parent.parent.toggle_color()
+                    if direction == -1:
+                        self.rotate_right(node.parent)
+                    elif direction == 1:
+                        self.rotate_left(node.parent)
+                    else:
+                        print("error")
+                elif case == 2:
+                    if direction == -1:
+                        self.rotate_right(node)
+                        self.rotate_left(node)
+                    elif direction == 1:
+                        self.rotate_left(node)
+                        self.rotate_right(node)
+                    else:
+                        print("error")
 
 
     def insert(self, value):
@@ -147,19 +177,23 @@ class RedBlackTree:
 
     def preorder_traversal(self, node:Node):
         if node != RedBlackTree.nill:
-            print(f"Node {node.value} has index {self.temp}")
+            print(f"Node {node.value} has index {self.temp} of color {node.color}")
             self.temp += 1
             self.preorder_traversal(node.left_child)
             self.preorder_traversal(node.right_child)
     
-# tempTree = RedBlackTree()
+tempTree = RedBlackTree()
 # tempTree.insert(5)
 # tempTree.insert(6)
 # tempTree.insert(1)
 # tempTree.insert(8)
 # tempTree.insert(2)
 # tempTree.insert(3)
-# tempTree.preorder_traversal(tempTree.root)
+# tempTree.insert(9)
+# tempTree.insert(7)
+# tempTree.insert(11)
+# tempTree.insert(10)
+tempTree.preorder_traversal(tempTree.root)
 # print("_______________")
 # tempTree.rotate_left(tempTree.root.right_child)
 # tempTree.rotate_right(tempTree.root.left_child)
