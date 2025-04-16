@@ -64,10 +64,6 @@ class RedBlackTree:
         else:
             return RedBlackTree.nill
     
-    # def get_uncle(self, node:Node):
-    #     if node.parent == node.parent.parent.right_child:
-    #         return node.parent.parent.left_child
-    #     return node.parent.parent.right_child
 
     def determine_rotations(self, node:Node):
         node_dir = self.get_direction_from_parent(node)
@@ -80,7 +76,7 @@ class RedBlackTree:
     def rotate_left(self, node:Node):
         node.parent.right_child = node.left_child
         node.left_child = node.parent
-        print("doing left rotate")
+        # print("doing left rotate")
         direction = self.get_direction_from_parent(node.parent)
         if direction == -1:
             node.parent.parent.left_child = node
@@ -94,7 +90,7 @@ class RedBlackTree:
     def rotate_right(self, node:Node):
         node.parent.left_child = node.right_child
         node.right_child = node.parent
-        print("doing right rotate")
+        # print("doing right rotate")
         direction = self.get_direction_from_parent(node.parent)
         if direction == -1:
             node.parent.parent.left_child = node
@@ -117,8 +113,8 @@ class RedBlackTree:
                 node.parent.parent.toggle_color()
                 self.fix_up(node.parent.parent)
             else:   # code below is ugly but works
-                print("not case 1 but case ")
-                print(self.determine_rotations(node))
+                # print("not case 1 but case ")
+                # print(self.determine_rotations(node))
                 case = self.determine_rotations(node)
                 direction = self.get_direction_from_parent(node)
                 if case == 3:
@@ -185,21 +181,25 @@ class RedBlackTree:
             self.temp += 1
             self.preorder_traversal(node.left_child)
             self.preorder_traversal(node.right_child)
-    
-tempTree = RedBlackTree()
+    def get_tree_height(self, root):
+        if root is RedBlackTree.nill:
+            return 0
+        left_height = self.get_tree_height(root.left_child)
+        right_height = self.get_tree_height(root.right_child)
+        return 1 + max(left_height, right_height)
 
-tempTree.insert(5)
-tempTree.insert(6)
-tempTree.insert(1)
-tempTree.insert(8)
-tempTree.insert(2)
-tempTree.insert(3)
-tempTree.insert(9)
-tempTree.insert(7)
-tempTree.insert(11)
-tempTree.insert(10)
-tempTree.preorder_traversal(tempTree.root)
-# print("_______________")
-# tempTree.rotate_left(tempTree.root.right_child)
-# tempTree.rotate_right(tempTree.root.left_child)
-# tempTree.preorder_traversal(tempTree.root)
+
+    def get_black_height(self, root):
+        if root is RedBlackTree.nill:
+            return 1
+        if root.color == 0 and root.parent != RedBlackTree.nill:
+            return 1 + self.get_black_height(root.left_child)
+        else:
+            return self.get_black_height(root.left_child)
+        
+
+    def get_size(self, root):
+        if root is RedBlackTree.nill:
+            return 0
+        return 1 + self.get_size(root.left_child) + self.get_size(root.right_child)
+
