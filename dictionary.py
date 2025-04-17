@@ -9,6 +9,7 @@ class RB_dictionary(RedBlackTree):
         with open(self.filename) as f:
             for word in f.readlines():
                 self.insert(word.strip().lower())
+                # print("inserting "+ word.strip().lower())
         f.close();
     
     def add_new_word(self, word):
@@ -25,9 +26,14 @@ class RB_dictionary(RedBlackTree):
             print("YES")
         else: 
             print("NO")
+            
         
 
-# tempD = RB_dictionary("our_sample.txt")
-# tempD.search_for_word(tempD.root,"banana")
+tempD = RB_dictionary("Dictionary.txt")
+tempD.preorder_traversal(tempD.root)
+tempD.search_for_word(tempD.root,"multimedia")
+print(f"tree height: {tempD.get_tree_height(tempD.root)}")
+print(f"tree black height: {tempD.get_black_height(tempD.root)}")
+print(f"tree size: {tempD.get_size(tempD.root)}")
 # tempD.insert_word("banana")
 # tempD.search_for_word(tempD.root,"abandon ")
