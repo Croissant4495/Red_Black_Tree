@@ -39,9 +39,9 @@ class RedBlackTree:
         if node != RedBlackTree.nill:
             if value == node.value:
                 return True
-            elif value < node.value and node.left_child != None:
+            elif value < node.value:
                 return self.search(node.left_child, value)
-            elif value > node.value and node.right_child != None:
+            elif value > node.value:
                 return self.search(node.right_child, value)
         return False
 
@@ -74,32 +74,37 @@ class RedBlackTree:
             return 2                          # Case 2
 
     def rotate_left(self, node:Node):
-        node.parent.right_child = node.left_child
-        node.left_child = node.parent
-        # print("doing left rotate")
-        direction = self.get_direction_from_parent(node.parent)
+        right_child = node.right_child
+        node.right_child = right_child.left_child
+        if right_child.left_child != RedBlackTree.nill:
+            right_child.left_child.parent = node
+        right_child.left_child = node
+        right_child.parent = node.parent
+        direction = self.get_direction_from_parent(node)
         if direction == -1:
-            node.parent.parent.left_child = node
+            node.parent.left_child = right_child
         elif direction == 1:
-            node.parent.parent.right_child = node
+            node.parent.right_child = right_child
         else:
-            self.root = node
-        node.parent = node.parent.parent
-        node.left_child.parent = node
+            self.root = right_child
+        node.parent = right_child
+        # node.right_child.parent = node
 
     def rotate_right(self, node:Node):
-        node.parent.left_child = node.right_child
-        node.right_child = node.parent
-        # print("doing right rotate")
-        direction = self.get_direction_from_parent(node.parent)
+        left_child = node.left_child
+        node.left_child = left_child.right_child
+        if left_child.right_child != RedBlackTree.nill:
+            left_child.right_child.parent = node
+        left_child.right_child = node
+        left_child.parent = node.parent
+        direction = self.get_direction_from_parent(node)
         if direction == -1:
-            node.parent.parent.left_child = node
+            node.parent.left_child = left_child
         elif direction == 1:
-            node.parent.parent.right_child = node
+            node.parent.right_child = left_child
         else:
-            self.root = node
-        node.parent = node.parent.parent
-        node.right_child.parent = node
+            self.root = left_child
+        node.parent = left_child
 
     def fix_up(self, node:Node):
         if node == self.root:
@@ -117,28 +122,26 @@ class RedBlackTree:
                 # print(self.determine_rotations(node))
                 case = self.determine_rotations(node)
                 direction = self.get_direction_from_parent(node)
-                if case == 3:
-                    node.parent.toggle_color()
-                    node.parent.parent.toggle_color()
+                
+                if case == 2:
                     if direction == -1:
                         self.rotate_right(node.parent)
+                        node = node.right_child
                     elif direction == 1:
                         self.rotate_left(node.parent)
+                        node = node.left_child
                     else:
                         print("error")
-                elif case == 2:
-                    if direction == -1:
-                        self.rotate_right(node)
-                        node.toggle_color()
-                        node.parent.toggle_color()
-                        self.rotate_left(node)
-                    elif direction == 1:
-                        self.rotate_left(node)
-                        node.toggle_color()
-                        node.parent.toggle_color()
-                        self.rotate_right(node)
-                    else:
-                        print("error")
+                # case 3 always happens after case 2 but we replaced the node with its child
+                node.parent.toggle_color()
+                node.parent.parent.toggle_color()
+                direction = self.get_direction_from_parent(node)
+                if direction == -1:
+                    self.rotate_right(node.parent.parent)
+                elif direction == 1:
+                    self.rotate_left(node.parent.parent)
+                else:
+                    print("error")
 
 
     def insert(self, value):
@@ -203,3 +206,18 @@ class RedBlackTree:
             return 0
         return 1 + self.get_size(root.left_child) + self.get_size(root.right_child)
 
+
+# tempTree = RedBlackTree()
+# tempTree.insert(10)
+# tempTree.insert(1)
+# tempTree.insert(12)
+# tempTree.insert(4)
+# tempTree.insert(8)
+# tempTree.insert(19)
+# tempTree.insert(2)
+# tempTree.insert(21)
+
+# tempTree.preorder_traversal(tempTree.root)
+# print(tempTree.get_tree_height(tempTree.root))
+# print(tempTree.get_black_height(tempTree.root))
+# print(tempTree.get_size(tempTree.root))
