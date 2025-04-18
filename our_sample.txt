@@ -7566,7 +7566,6 @@ hypochondriac
 hypocrisy
 hypocrite
 hypocritical
-```
 hypodermic
 hypotenuse
 hypothesis
@@ -8938,7 +8937,6 @@ latency
 latent
 later
 lateral
-```
 latest
 latex
 lath
@@ -10360,7 +10358,6 @@ momentary
 momentous
 momentum
 monad
-```
 monadic
 monarch
 monarchical
@@ -10937,7 +10934,6 @@ nullify
 numb
 number
 numberless
-numeral
 numeral
 numerator
 numeric
@@ -11788,7 +11784,6 @@ pedestal
 pedestrian
 pediatric
 pediatrician
-```
 pediatrics
 pedicure
 pedigree
@@ -12846,7 +12841,6 @@ prosperity
 prosperous
 prostrate
 prostitution
-prostrate
 prosy
 protagonist
 protean
