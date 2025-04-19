@@ -21,12 +21,6 @@ class RB_dictionary(RedBlackTree):
                     else:
                         failed += 1
                         print(f"Failed to insert: {word}")
-                    
-        print(f"\nSummary:")
-        print(f"Total words attempted: {len(words)}")
-        print(f"Successfully inserted: {successful}")
-        print(f"Failed insertions: {failed}")
-        print(f"Current tree size: {self.get_size(self.root)}")
         return successful
     
     def add_new_word(self, word):
@@ -45,11 +39,8 @@ class RB_dictionary(RedBlackTree):
             print("NO")
             
         
-
-# tempD = RB_dictionary("our_sample.txt")   # our sample has duplicates. DONT USE IT
 tempD = RB_dictionary("Dictionary.txt")
 print(f"tree height: {tempD.get_tree_height(tempD.root)}")
 print(f"tree black height: {tempD.get_black_height(tempD.root)}")
 print(f"tree size: {tempD.get_size(tempD.root)}")
-tempD.insert_word("abdo'ana'mesh'ha7elak")
-# tempD.search_for_word(tempD.root,"beedo")
+tempD.insert_word("GitHubS")
